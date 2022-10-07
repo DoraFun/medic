@@ -39,7 +39,6 @@ function App() {
           <img src={logo} className='self-center' alt='logo' />
           <img src={logo_slogan} className='self-center' alt='logo_slogan' />
           <img src={year} className='self-center' alt='year' />
-          <button className='self-center w-48 text-xl font-bold text-white bg-red-500 h-11'>Запись на прием</button>
           <Popus/>
         </div>
         <div className=''>
