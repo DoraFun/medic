@@ -12,21 +12,19 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
     case "GET":
-        $sql = "SELECT * FROM docs";
-        $path = explode('/', $_SERVER['REQUEST_URI']);
-        if(isset($path[3]) && is_numeric($path[3])) {
-            $sql .= " WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id', $path[3]);
-            $stmt->execute();
-            $users = $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
+        $path = $_SERVER['REQUEST_URI'];
+        //check for url to perform different requests
+        if($path == '/api/users'){
+            $sql = "SELECT * FROM docs";
+
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+
 
         echo json_encode($users);
-        break;
+        }
 
+        break;
 }
+

@@ -1,5 +1,5 @@
 // import Gallery from "./components/gallery/Gallery";
-import ImageGallery from 'react-image-gallery';
+// import ImageGallery from 'react-image-gallery';
 import Content from "./components/routes/Content";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Services from "./components/routes/Services";
@@ -10,6 +10,7 @@ import logo from './components/images/header/logo.png';
 import logo_slogan from './components/images/header/logo_slogan.png';
 import year from './components/images/header/year.png';
 import Popus from './components/popup/Popus';
+import { useState } from 'react';
 
 
 
@@ -32,6 +33,9 @@ import Popus from './components/popup/Popus';
 // ];
 
 function App() {
+  const [token, setToken] = useState();
+
+
   return (
     <div className="grid grid-flow-row mx-auto App max-w-screen-2xl gap-y-10 ">
       <div className='flex flex-col'>
@@ -39,7 +43,9 @@ function App() {
           <img src={logo} className='self-center' alt='logo' />
           <img src={logo_slogan} className='self-center' alt='logo_slogan' />
           <img src={year} className='self-center' alt='year' />
-          <Popus/>
+          {
+            !token ? (<Popus setToken={setToken} />) : (<div>Пук</div>)
+          }
         </div>
         <div className=''>
           <BrowserRouter>
