@@ -10,21 +10,45 @@ $objDb = new DbConnect;
 $conn = $objDb->connect();
 
 $method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch ($method) {
     case "GET":
         $path = $_SERVER['REQUEST_URI'];
         //check for url to perform different requests
-        if($path == '/api/users'){
+        if ($path == '/api/doctors') {
             $sql = "SELECT * FROM docs";
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $docs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-        echo json_encode($users);
+            echo json_encode($docs);
         }
 
         break;
-}
+    
+    case "POST":
+        $user = json_decode( file_get_contents('php://input') );
+        $sql = "SELECT * FROM `users` WHERE `login` like ? and `pass` like ?";
+        $stmt = $conn -> prepare($sql);
+        $stmt-> execute(array($user->login,md5($user->pass)));
+        $lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $count = count($lines);
+        if ($count>0){
+            $response = ['status' => 1, 'message' => 'Authorized'];
+        }
+        else{
+            break;
+        }
+        echo json_encode($response);
+        break;
 
+
+        // if ($stmt->execute(array("$user->login","md5($user->pass)"))) {
+        //     $response = ['status' => 1, 'message' => 'Authorized'];
+        // } else {
+        //     $response = ['status' => 0, 'message' => 'Failed to Authorize'];
+        // }
+        // echo json_encode($response);
+        // break;
+}

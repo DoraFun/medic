@@ -44,7 +44,7 @@ function App() {
           <img src={logo_slogan} className='self-center' alt='logo_slogan' />
           <img src={year} className='self-center' alt='year' />
           {
-            !token ? (<Popus setToken={setToken} />) : (<div>Пук</div>)
+            !token ? (<Popus setToken={setToken} />) : (<div>работает</div>)
           }
         </div>
         <div className=''>

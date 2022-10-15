@@ -9,7 +9,7 @@ const Specialists = () => {
     getDocs();
   }, []);
   function getDocs() {
-    axios.get('https://medic/api/users').then(function (response) {
+    axios.get('https://medic/api/doctors').then(function (response) {
       console.log(response.data);
       setDoc(response.data);
     });
