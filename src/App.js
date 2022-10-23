@@ -11,6 +11,7 @@ import logo_slogan from './components/images/header/logo_slogan.png';
 import year from './components/images/header/year.png';
 import Popus from './components/popup/Popus';
 import { useState } from 'react';
+import Appointment from "./components/popup/Appointment";
 
 
 
@@ -44,7 +45,7 @@ function App() {
           <img src={logo_slogan} className='self-center' alt='logo_slogan' />
           <img src={year} className='self-center' alt='year' />
           {
-            !token ? (<Popus setToken={setToken} />) : (<div>работает</div>)
+            !token ? (<Popus setToken={setToken} />) : (<Appointment/>)
           }
         </div>
         <div className=''>

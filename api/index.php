@@ -15,7 +15,7 @@ switch ($method) {
         $path = $_SERVER['REQUEST_URI'];
         //check for url to perform different requests
         if ($path == '/api/doctors') {
-            $sql = "SELECT * FROM docs";
+            $sql = "SELECT * FROM docs INNER JOIN specs on docs.spec_id = specs.spec_id";
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
@@ -28,20 +28,43 @@ switch ($method) {
         break;
     
     case "POST":
-        $user = json_decode( file_get_contents('php://input') );
-        $sql = "SELECT * FROM `users` WHERE `login` like ? and `pass` like ?";
-        $stmt = $conn -> prepare($sql);
-        $stmt-> execute(array($user->login,md5($user->pass)));
-        $lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $count = count($lines);
-        if ($count>0){
-            $response = ['status' => 1, 'message' => 'Authorized'];
-        }
-        else{
+        $path = $_SERVER['REQUEST_URI'];
+        if ($path == '/api/appointmentsave'){
+
+            $user = json_decode( file_get_contents('php://input') );
+            $sql = "INSERT INTO appointments(app_id,doctor, `date`, pac_name, pac_phone, pac_ad) VALUES(0,:doctore, :dato, :pacnamee, :pacphone, :pacad)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':doctore', $user->doctore);
+            $stmt->bindParam(':dato', $user->startDate);
+            $stmt->bindParam(':pacnamee', $user->inputs->pacname);
+            $stmt->bindParam(':pacphone', $user->inputs->pacphone);
+            $stmt->bindParam(':pacad', $user->inputs->pacad);
+            if($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
+            echo json_encode($response);
             break;
         }
-        echo json_encode($response);
-        break;
+        else {
+            $user = json_decode( file_get_contents('php://input') );
+            $sql = "SELECT * FROM `users` WHERE `login` like ? and `pass` like ?";
+            $stmt = $conn -> prepare($sql);
+            $stmt-> execute(array($user->login,md5($user->pass)));
+            $lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $count = count($lines);
+            if ($count>0){
+                $response = ['status' => 1, 'message' => 'Authorized'];
+            }
+            else{
+                break;
+            }
+            echo json_encode($response);
+            break;
+        }
+
+       
 
 
         // if ($stmt->execute(array("$user->login","md5($user->pass)"))) {

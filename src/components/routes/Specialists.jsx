@@ -31,12 +31,8 @@ const Specialists = () => {
             <tr key={key}>
               <td>{doc.doc_id}</td>
               <td>{doc.fio}</td>
-              <td>{doc.spec_id}</td>
+              <td>{doc.spec}</td>
 
-              {/* <td>
-                <Link to={`user/${user.id}/edit`} style={{ marginRight: "10px" }}>Edit</Link>
-                <button>Delete</button>
-              </td> */}
             </tr>
           )}
 
