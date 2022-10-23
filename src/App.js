@@ -52,14 +52,14 @@ function App() {
           <BrowserRouter>
             <div className='grid items-center h-16 grid-cols-5 mb-3 text-lg font-medium text-center text-white uppercase bg-emerald-500 gap-x-2'>
               <div><Link to="/" >Главная</Link> </div>
-              <div><Link to="/services" >Услуги</Link> </div>
+              <Link to="/files/price.xls" target="_blank" download>Услуги</Link>
               <div><Link to="/specialists" >Специалисты</Link> </div>
               <div><Link to="/news" >Новости</Link> </div>
               <div><Link to="/contacts" >Контакты</Link> </div>
             </div>
             <Routes>
               <Route index element={<Content />} />
-              <Route path="/services" element={<Services />} />
+              
               <Route path="/specialists" element={<Specialists />} />
               <Route path="/news" element={<News />} />
               <Route path="/contacts" element={<Contacts />} />

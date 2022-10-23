@@ -45,6 +45,46 @@ switch ($method) {
                 $response = ['status' => 0, 'message' => 'Failed to create record.'];
             }
             echo json_encode($response);
+
+            require('fpdf/fpdf.php');
+    // создаем PDF документ
+        $pdf= new FPDF();
+    // устанавливаем заголовок документа
+        $pdf->SetTitle("TALOH");
+    // создаем страницу
+        $pdf->AddPage('P');
+        $pdf->SetDisplayMode('real','default');
+    // добавляем шрифт ариал
+        $pdf->AddFont('Arial','','arial.php'); 
+    // устанавливаем шрифт Ариал
+        $pdf->SetFont('Arial');
+    // устанавливаем размер шрифта
+        $pdf->SetFontSize(16);
+    // добавляем текст
+        $pdf->SetXY(10,10);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"Талон на посещение врача"));
+    // добавляем текст
+        $pdf->SetFontSize(12);
+        $pdf->SetXY(10,30);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"ФИО пациента:  ".$user->inputs->pacname));
+    // добавляем текст
+        $pdf->SetXY(10,40);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"Номер телефона пациента:  ".$user->inputs->pacphone));
+    // добавляем текст
+        $pdf->SetFontSize(12);
+        $pdf->SetXY(10,50);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"Дата: ".$user->startDate));
+    // добавляем текст
+        $pdf->SetXY(10,60);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"Причина обращения:  ".$user->inputs->pacad));
+    // добавляем текст
+        $pdf->SetXY(10,70);
+        $pdf->Write(0,iconv('utf-8', 'windows-1251',"Специалист:  ".$user->doctore));
+
+    //Вывод пдф файла в режиме скачивания
+    
+         $pdf->Output('Talon'.".pdf","F");
+
             break;
         }
         else {

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import InputMask from "react-input-mask";
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
 import ru from 'date-fns/locale/ru';
+import $ from 'jquery';
 
 
 import DatePicker from "react-datepicker";
@@ -24,6 +25,7 @@ const Appointment = () => {
     const [selectedOption, setSelectedOption] = useState();
 
 
+   
     useEffect(() => {
         getDocs();
     }, []);
@@ -54,8 +56,9 @@ const Appointment = () => {
         const doctore = selectedOption.value
         
           event.preventDefault();
+          
           axios.post('https://medic/api/appointmentsave', {
-            
+        
           inputs,
           doctore,
           startDate
@@ -63,10 +66,22 @@ const Appointment = () => {
             
 
           }).then(function(response){
-              console.log(response.data);
+              console.log(response);
               
+              axios({
+                url: 'https://medic/api/Talon.pdf',
+                method: 'GET',
+                responseType: 'blob', // important
+              }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'Talon.pdf');
+                document.body.appendChild(link);
+                link.click();
+              });
+            
           });
-          
       }
 
 
