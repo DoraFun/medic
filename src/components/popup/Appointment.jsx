@@ -21,8 +21,10 @@ const Appointment = () => {
     const [Doc, setDoc] = useState([]);
     const [startDate, setStartDate] = useState(new Date());
     const meds = [];
+    const specs = [];
 
     const [selectedOption, setSelectedOption] = useState();
+    const [selectedOption2, setSelectedOption2] = useState();
 
 
    
@@ -40,7 +42,8 @@ const Appointment = () => {
         });
     }
     Doc.forEach(row => {
-        meds.push({ value: row.fio+' - '+row.spec, label: row.fio+' - '+row.spec });
+        meds.push({ value: row.fio, label:row.fio});
+        specs.push({ value:row.spec, label:row.spec });
     });
 
 
@@ -54,13 +57,14 @@ const Appointment = () => {
       }
       const handleSubmit = (event) => {
         const doctore = selectedOption.value
-        
+        const speco = selectedOption2.value
           event.preventDefault();
           
           axios.post('https://medic/api/appointmentsave', {
         
           inputs,
           doctore,
+          speco,
           startDate
         
             
@@ -91,6 +95,8 @@ const Appointment = () => {
         <Popup trigger={<button className="self-center w-48 text-xl font-bold text-white bg-green-600 h-11"> Запись на прием </button>} modal>
 
             <form className='grid items-center grid-flow-row grid-cols-2 grid-rows-6' onSubmit={handleSubmit}>
+                <p>Выберите специалиста: </p>
+                <Select options={specs} name='doctor' onChange={setSelectedOption2} defaultValue={selectedOption2}  />
                 <p>Выберите врача: </p>
                 <Select options={meds} name='doctor' onChange={setSelectedOption} defaultValue={selectedOption}  />
                 <p>Выберите дату</p>

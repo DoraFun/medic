@@ -32,9 +32,10 @@ switch ($method) {
         if ($path == '/api/appointmentsave'){
 
             $user = json_decode( file_get_contents('php://input') );
-            $sql = "INSERT INTO appointments(app_id,doctor, `date`, pac_name, pac_phone, pac_ad) VALUES(0,:doctore, :dato, :pacnamee, :pacphone, :pacad)";
+            $sql = "INSERT INTO appointments(app_id,spec,doctor, `date`, pac_name, pac_phone, pac_ad) VALUES(0,:spec, :doctore, :dato, :pacnamee, :pacphone, :pacad)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':doctore', $user->doctore);
+            $stmt->bindParam(':spec', $user->speco);
             $stmt->bindParam(':dato', $user->startDate);
             $stmt->bindParam(':pacnamee', $user->inputs->pacname);
             $stmt->bindParam(':pacphone', $user->inputs->pacphone);
